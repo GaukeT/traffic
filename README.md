@@ -1,3 +1,3 @@
 # Traffic
 
-![alt text](./resources/example.png)
+![alt text](./resources/example1.png)
