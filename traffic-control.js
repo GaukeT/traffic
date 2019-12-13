@@ -7,7 +7,15 @@ class TrafficController {
 		trafficLight.setId(this.next_id);
 		this.registered_lights.push(trafficLight);
 		this.queue_sizes.push(0);
+		this.determaineDependentTrafficLights(trafficLight);
 		this.next_id++;
+	}
+
+	determaineDependentTrafficLights(tl) {
+		if (tl.getId() > 0) {
+			tl.pushDependentOn(tl.getId() - 1);
+			tl.pushDependentOn(tl.getId() + 1);
+		}
 	}
 
 	check() {
@@ -29,6 +37,12 @@ class TrafficController {
 		// green, yellow, red
 		// state = [0x4, 0x2, 0x1];
 
+		if (this.isDependentOnTrafficLights(tl)) {
+			// return red light when one of the dependent 
+			// traffic lights' state is green.
+			return 0x1;
+		}
+
 		let queueSize = this.getQueueSizeFor(tl);
 
 		if (queueSize > 0) {
@@ -41,6 +55,18 @@ class TrafficController {
 		}
 
 		return 0x1;
+	}
+
+	isDependentOnTrafficLights(tl) {
+		let dep = tl.getDependentOn();
+
+		for (var i = 0; i < dep.length; i++) {
+			let dtl = this.registered_lights[dep[i]];
+			if (dtl && dtl.getState() === 0x4) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	showQueueSize(tl) {
@@ -61,26 +87,7 @@ class TrafficController {
 
 	setQueueSize() {
 		for (var i = 0; i < this.queue_sizes.length; i++) {		
-			this.queue_sizes[i] += Math.floor(Math.random() * 10) +1;
+			this.queue_sizes[i] += Math.floor(Math.random() * 11);
  		}
-	}
-}
-
-
-class TrafficLightData {
-	currentTrafficLight;
-	dependentOn = [];
-	queueSize = 0;
-
-	constructor(tl) {
-		this.currentTrafficLight = tl;
-	}
-
-	setQueueSize(size) {
-		this.queueSize = size;
-	}
-
-	setDependentOn(id) {
-		this.dependentOn.push(id);
 	}
 }

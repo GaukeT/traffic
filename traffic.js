@@ -1,20 +1,22 @@
 // Traffic light simulator
 var frame_rate = 2;
+var tls = [];
 
 function setup() {
   createCanvas(800, 500);
   frameRate(frame_rate);
 
   // create traffic lights
-  tl1 = new TrafficLight(100, 100);
-  tl2 = new TrafficLight(250, 100);
-  tl3 = new TrafficLight(400, 100);
+  tls.push(new TrafficLight(100, 100));
+  tls.push(new TrafficLight(250, 100));
+  tls.push(new TrafficLight(400, 100));
+  tls.push(new TrafficLight(550, 100));
 
   // create traffic controller and register the traffic lights
   tc = new TrafficController();
-  tc.register(tl1);
-  tc.register(tl2);
-  tc.register(tl3);
+  for (var i = 0; i < tls.length; i++) {
+    tc.register(tls[i]);
+  }
 }
 
 function draw() {

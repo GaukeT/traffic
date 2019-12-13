@@ -5,6 +5,8 @@ class TrafficLight {
 
 	id;
 
+	dependentOn = [];
+
 	constructor(x_location, y_location) {
 		this.x_location = x_location;
 		this.y_location = y_location;
@@ -25,6 +27,22 @@ class TrafficLight {
 
 	getState() {
 		return this.state;
+	}
+
+	setQueueSize(size) {
+		this.queueSize = size;
+	}
+
+	getQueueSize() {
+		return this.queueSize;
+	}
+
+	pushDependentOn(id) {
+		this.dependentOn.push(id);
+	}
+
+	getDependentOn() {
+		return this.dependentOn;
 	}
 
 	update() {
