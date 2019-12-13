@@ -7,11 +7,15 @@ function setup() {
     frameRate(frame_rate);
 
     // create traffic light
-    tl = new TrafficLight(width / 2, 25);
+    tl0 = new TrafficLight(width / 2 - 75, 25);
+    tl1 = new TrafficLight(400, 275);
+    tl2 = new TrafficLight(500, 275);
 
     // create traffic controller and register the traffic lights
     tc = new TrafficController(frame_rate);
-    tc.register(tl);
+    tc.register(tl0);
+    tc.register(tl1);
+    tc.register(tl2);
 }
 
 function draw() {
@@ -34,10 +38,10 @@ function createTraffic() {
         moving_car_x = 0;
     }
 
-    if (tc.getQueueSizeFor(tl) === 0) {
+    if (tc.getQueueSizeFor(tl0) === 0) {
         moving_car_x++;
-        if (moving_car_x === width / 2 - 5) {
-            tc.setQueueSizeFor(tl, "+")
+        if (moving_car_x === width / 2 - 80) {
+            tc.setQueueSizeFor(tl0, "+")
         }
     }
 

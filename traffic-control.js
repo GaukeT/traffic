@@ -19,8 +19,8 @@ class TrafficController {
     determaineDependentTrafficLights(tl) {
         if (tl.getId() > 0) {
             tl.pushDependentOn(tl.getId() - 1);
-            tl.pushDependentOn(tl.getId() + 1);
         }
+        tl.pushDependentOn(tl.getId() + 1);
     }
 
     check() {
@@ -98,7 +98,7 @@ class TrafficController {
     }
 
     setQueueSize() {
-        for (var i = 0; i < this.queue_sizes.length; i++) {
+        for (var i = 1; i < this.queue_sizes.length; i++) {
             this.queue_sizes[i] += Math.floor(Math.random() * 11);
         }
     }
