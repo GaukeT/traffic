@@ -56,13 +56,13 @@ class TrafficLight {
 
 		// red
 		fill(255,0,0, this.isOn(this.state , 0));
-		circle(this.x_location + 75/2, this.y_location+45, 25);
+		circle(this.x_location + 75/2, this.y_location+45, 50);
 		// yellow
 		fill(255,204,50, this.isOn(this.state, 1));
-		circle(this.x_location + 75/2, this.y_location+100, 25);
+		circle(this.x_location + 75/2, this.y_location+100, 50);
 		// green
 		fill(0,255,0, this.isOn(this.state, 2));
-		circle(this.x_location + 75/2, this.y_location+155, 25);
+		circle(this.x_location + 75/2, this.y_location+155, 50);
 
 		pop();
 	}
