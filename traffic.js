@@ -6,8 +6,8 @@ function setup() {
     createCanvas(600, 500);
     frameRate(frame_rate);
 
-    // create traffic light
-    tl0 = new TrafficLight(width / 2 - 75, 25);
+    // create traffic lights
+    tl0 = new TrafficLight(200, 25);
     tl1 = new TrafficLight(400, 275);
     tl2 = new TrafficLight(500, 275);
 
@@ -40,8 +40,8 @@ function createTraffic() {
 
     if (tc.getQueueSizeFor(tl0) === 0) {
         moving_car_x++;
-        if (moving_car_x === width / 2 - 80) {
-            tc.setQueueSizeFor(tl0, "+")
+        if (moving_car_x === 195) {
+            tc.increaseQueueSizeFor(tl0);
         }
     }
 

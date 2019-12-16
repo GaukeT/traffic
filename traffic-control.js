@@ -39,9 +39,11 @@ class TrafficController {
     }
 
     determaineState(tl) {
-        // green, yellow, red
-        // state = [0x4, 0x2, 0x1];
+        const red = 0x1;
+        const yellow = 0x2;
+        const green = 0x4;
 
+        // update state traffic light per second.
 		if (frameCount % frame_rate !== 0) {
 			return tl.getState();
 		}
@@ -49,21 +51,19 @@ class TrafficController {
         if (this.isDependentOnTrafficLights(tl)) {
             // return red light when one of the dependent
             // traffic lights' state is green.
-            return 0x1;
+            return red;
         }
 
         let queueSize = this.getQueueSizeFor(tl);
 
         if (queueSize > 0) {
-            this.setQueueSizeFor(tl, "-");
-            return 0x4;
-        } else {
-            if (tl.getState() === 0x4) {
-                return 0x2;
-            }
+            this.decreaseQueueSizeFor(tl);
+            return green;
+        } else if (tl.getState() === green) {
+            return yellow;
         }
 
-        return 0x1;
+        return red;
     }
 
     isDependentOnTrafficLights(tl) {
@@ -90,10 +90,11 @@ class TrafficController {
         return this.queue_sizes[tl.getId()];
     }
 
-    setQueueSizeFor(tl, val) {
-        if (val === "+") {
-            this.queue_sizes[0] += 2;
-        }
+    increaseQueueSizeFor(tl) {
+        this.queue_sizes[tl.getId()]++;
+    }
+
+    decreaseQueueSizeFor(tl) {
         this.queue_sizes[tl.getId()]--;
     }
 
