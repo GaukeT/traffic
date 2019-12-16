@@ -11,7 +11,7 @@ There are still ideas to put into, but at the moment one "car" will drive from l
  - clone project
  - open the index.html file in the browser
  
- on mouse click, the two traffic lights on the most right will get random numbers of 'traffic' in their corresponding queue.
+ on mouse click, the two traffic lights below the road will get a random amount of 'traffic' in their corresponding queue.
  
 ## History
  - In the resources folder, there are more screenshots of earlier versions.
