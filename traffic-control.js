@@ -4,10 +4,16 @@ class TrafficController {
     queue_sizes = [];
     frame_rate;
 
+    /**
+     * @param {Number} frame_rate
+     */
     constructor(frame_rate) {
     	this.frame_rate = frame_rate;
 	}
 
+    /**
+     * @param {TrafficLight} trafficLight
+     */
     register(trafficLight) {
         trafficLight.setId(this.next_id);
         this.registered_lights.push(trafficLight);
@@ -23,21 +29,29 @@ class TrafficController {
         tl.pushDependentOn(tl.getId() + 1);
     }
 
-    check() {
-        for (var i = 0; i < this.registered_lights.length; i++) {
+    update() {
+        for (let i = 0; i < this.registered_lights.length; i++) {
             let tl = this.registered_lights[i];
 
             // actions
             this.showQueueSize(tl);
             this.setState(tl, this.determaineState(tl));
         }
+        this.showRegisteredLights();
     }
 
+    /**
+     * @param {TrafficLight} tl
+     * @param {Number} state
+     */
     setState(tl, state) {
         tl.setState(state);
-        tl.update();
+        tl.show();
     }
 
+    /**
+     * @param {TrafficLight} tl
+     */
     determaineState(tl) {
         const red = 0x1;
         const yellow = 0x2;
@@ -66,6 +80,9 @@ class TrafficController {
         return red;
     }
 
+    /**
+     * @param {TrafficLight} tl
+     */
     isDependentOnTrafficLights(tl) {
         let dep = tl.getDependentOn();
 
@@ -78,22 +95,36 @@ class TrafficController {
         return false;
     }
 
+    /**
+     * @param {TrafficLight} tl
+     */
     showQueueSize(tl) {
-        text(tl.getId() + ": " + this.queue_sizes[tl.getId()], 20, 15 + (20 * tl.getId()));
+        if (debug_mode) {
+            text(tl.getId() + ": " + this.queue_sizes[tl.getId()], 20, 15 + (20 * tl.getId()));
+        }
     }
 
-    getRegisteredLights() {
-        return "{" + this.next_id + "}";
+    showRegisteredLights() {
+        if (debug_mode) {
+            text("Registered: " + this.next_id, 20, 475);
+        }
     }
 
     getQueueSizeFor(tl) {
+        // TODO: determaine if there is traffic waiting
         return this.queue_sizes[tl.getId()];
     }
 
+    /**
+     * @param {TrafficLight} tl
+     */
     increaseQueueSizeFor(tl) {
         this.queue_sizes[tl.getId()]++;
     }
 
+    /**
+     * @param {TrafficLight} tl
+     */
     decreaseQueueSizeFor(tl) {
         this.queue_sizes[tl.getId()]--;
     }
@@ -102,5 +133,16 @@ class TrafficController {
         for (var i = 1; i < this.queue_sizes.length; i++) {
             this.queue_sizes[i] += Math.floor(Math.random() * 11);
         }
+    }
+
+    // methods for vehicles
+    registrateVehicle() {
+        let tl = this.registered_lights[0];
+        this.increaseQueueSizeFor(tl);
+    }
+
+    isGreen() {
+        let tl = this.registered_lights[0];
+        return tl.getState() === 0x4;
     }
 }

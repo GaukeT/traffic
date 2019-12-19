@@ -7,9 +7,13 @@ class TrafficLight {
 
     dependentOn = [];
 
-    constructor(x_location, y_location) {
-        this.x_location = x_location;
-        this.y_location = y_location;
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        this.x_location = x;
+        this.y_location = y;
         this.state = 0x1;
     }
 
@@ -37,7 +41,15 @@ class TrafficLight {
         return this.dependentOn;
     }
 
-    update() {
+    getXPostion() {
+        return this.x_location;
+    }
+
+    getYPostion() {
+        return this.y_location;
+    }
+
+    show() {
         push();
         noStroke();
         noFill();

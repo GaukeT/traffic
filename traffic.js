@@ -1,6 +1,6 @@
 // Traffic light simulator
-var frame_rate = 50;
-var moving_car_x = 0;
+const frame_rate = 50;
+let debug_mode = true;
 
 function setup() {
     createCanvas(600, 500);
@@ -16,44 +16,33 @@ function setup() {
     tc.register(tl0);
     tc.register(tl1);
     tc.register(tl2);
+
+    // create traffic
+    car0 = new Vehicle(tc,20, height / 2);
+    car1 = new Vehicle(tc,70, height / 2);
+
+    // create road
+    road1 = new Road(tc,0, height / 2 - 15);
+    road1.addVehicle(car0);
+    road1.addVehicle(car1);
 }
 
 function draw() {
     background(130, 170, 130);
-    text("Registered: " + tc.getRegisteredLights(), 20, 475);
 
-    // create a road with moving objects //
-    this.createRoad();
-    this.createTraffic();
-
-    tc.check();
+    road1.update();
+    tc.update();
 }
 
+// helper for random queue sizes
 function mousePressed() {
     tc.setQueueSize();
 }
 
-function createTraffic() {
-    if (moving_car_x > width) {
-        moving_car_x = 0;
+// helper for disable or enable debug mode
+function keyTyped() {
+    if (key === "d") {
+        debug_mode = !debug_mode;
     }
-
-    if (tc.getQueueSizeFor(tl0) === 0) {
-        moving_car_x++;
-        if (moving_car_x === 195) {
-            tc.increaseQueueSizeFor(tl0);
-        }
-    }
-
-    push();
-    fill(150);
-    rect(moving_car_x, height / 2, 15, 10);
-    pop();
-}
-
-function createRoad() {
-    push();
-    fill(230);
-    rect(0, height / 2 - 15, width, 30);
-    pop();
+    return false;
 }
