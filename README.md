@@ -4,6 +4,8 @@ In this project I wanted to create a simulation of traffic that interacts with t
 
 There are still ideas to put into, but at the moment one "car" will drive from left to right and interacts with the traffic light above the road. That traffic light needs to interact with the other two traffic lights shown on the screen. 
 
+LIVE DEMO: [gh-pages](https://gauket.github.io/traffic/)
+
 ## Example
 ![alt text](./resources/example1.png)
 
